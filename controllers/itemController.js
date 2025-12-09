@@ -24,6 +24,16 @@ export const getItems = (req, res) => {
   });
 };
 
+// Read single item by id
+export const getItem = (req, res) => {
+  const { id } = req.params;
+  db.query("SELECT * FROM items WHERE id = ?", [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    if (!results || results.length === 0) return res.status(404).json({ message: "Item not found" });
+    res.json(results[0]);
+  });
+};
+
 // Update
 export const updateItem = (req, res) => {
   const { id } = req.params;
